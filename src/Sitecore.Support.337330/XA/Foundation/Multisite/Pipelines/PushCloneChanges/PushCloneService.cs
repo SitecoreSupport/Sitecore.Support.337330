@@ -1,11 +1,13 @@
-﻿namespace Sitecore.XA.Foundation.Multisite.Services
+﻿namespace Sitecore.Support.XA.Foundation.Multisite.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Sitecore.Data.Comparers;
     using Sitecore.Data.Items;
     using Sitecore.Pipelines;
     using Sitecore.XA.Foundation.Multisite.Pipelines.PushCloneChanges;
+    using Sitecore.XA.Foundation.Multisite.Services;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class PushCloneService : IPushCloneService
     {
         private readonly IPushCloneCoordinatorService _coordinatorService;
@@ -50,10 +52,7 @@
                     var clones = GetCloneItem(item);
                     foreach (var clone in clones)
                     {
-                        if (parentClone.Paths.FullPath.Contains(clone.Paths.FullPath) || clone.Paths.FullPath.Contains(parentClone.Paths.FullPath))
-                        {
-                            clone.MoveTo(parentClone);
-                        }
+                            clone.MoveTo(parentClone);                        
                     }
                 }
             }
