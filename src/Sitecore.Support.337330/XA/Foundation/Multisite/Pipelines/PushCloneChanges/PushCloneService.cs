@@ -22,6 +22,8 @@
             var parent = item.Parent;
             var clones = parent.GetClones();
 
+            clones = clones.GroupBy(c => c.ID).Select(g => g.First());
+
             foreach (var clone in clones)
             {
                 if (!_coordinatorService.ShouldProcess(clone))
