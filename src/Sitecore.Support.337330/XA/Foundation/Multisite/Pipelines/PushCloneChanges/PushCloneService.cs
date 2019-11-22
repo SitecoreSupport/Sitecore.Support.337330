@@ -30,10 +30,10 @@
                 {
                     continue;
                 }
-
-                if (item.Versions.GetVersionNumbers().Length > 0)
+                
+                if (item.Uri.Version.Number > 0)
                 {
-                    var cloneItem = item.CloneTo(clone);
+                    var cloneItem = item.CloneTo(clone, false);
                     ProtectItem(cloneItem);
                 }
             }
