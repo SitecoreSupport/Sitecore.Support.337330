@@ -34,7 +34,15 @@
                 if (item.Uri.Version.Number > 0)
                 {
                     var cloneItem = item.CloneTo(clone, false);
-                    ProtectItem(cloneItem);
+
+                    if (!cloneItem.IsClone)
+                    {
+                        cloneItem.Delete();
+                    }
+                    else
+                    {
+                        ProtectItem(cloneItem);
+                    }
                 }
             }
         }
