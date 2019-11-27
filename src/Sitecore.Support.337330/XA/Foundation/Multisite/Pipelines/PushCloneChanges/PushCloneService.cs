@@ -30,7 +30,7 @@
                 {
                     continue;
                 }
-                
+
                 if (item.Uri.Version.Number > 0)
                 {
                     var cloneItem = item.CloneTo(clone, false);
@@ -51,18 +51,20 @@
         {
             if (item.Parent.HasClones)
             {
-                var parentClones = GetCloneItem(item.Parent);
-                foreach (var parentClone in parentClones.ToList())
+                var parentClones = GetCloneItem(item.Parent).ToList();
+                var itemClones = GetCloneItem(item).ToList();
+
+                foreach (var parentClone in parentClones)
                 {
                     if (!_coordinatorService.ShouldProcess(parentClone))
                     {
                         return;
                     }
-
-                    var clones = GetCloneItem(item);
-                    foreach (var clone in clones)
+                    foreach (var clone in itemClones)
                     {
-                            clone.MoveTo(parentClone);                        
+                        clone.MoveTo(parentClone);
+                        itemClones.Remove(clone);
+                        break;
                     }
                 }
             }
@@ -103,7 +105,6 @@
 
         public void AddVersion(Item item)
         {
-            
             var parent = item.Parent;
             var latest = item.Versions.GetLatestVersion();
             var versionUri = latest.Uri;
@@ -142,6 +143,7 @@
                         newVersion[FieldIDs.SourceItem] = versionUri.ToString(false);
                         newVersion.Editing.EndEdit();
                     }
+                    ProtectItem(versionedClone);
                 }
             }
         }
